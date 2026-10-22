@@ -58,7 +58,7 @@ import Page from './page.vue'
 
 export default (ctx: Context) => {
   ctx.client.router.page({
-    name: 'Dileader Harness',
+    name: 'cordis Harness',
     path: '/progress',
     component: Page,
   })

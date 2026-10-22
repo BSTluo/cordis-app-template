@@ -1,7 +1,7 @@
 {
-  "name": "dileader-plugin-template",
+  "name": "cordis-plugin-template",
   "version": "0.0.1",
-  "description": "Dileader-Harness by Cordis",
+  "description": "cordis-Harness by Cordis",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

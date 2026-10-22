@@ -7,7 +7,7 @@ import test, { after, before } from 'node:test'
 import { createPlugin, normalizePluginName } from './setup.mjs'
 
 const repositoryRoot = resolve(import.meta.dirname, '..')
-const workspaceRoot = await mkdtemp(join(tmpdir(), 'dileader-setup-'))
+const workspaceRoot = await mkdtemp(join(tmpdir(), 'cordis-setup-'))
 
 before(async () => {
   const templateRoot = join(workspaceRoot, 'external')
@@ -46,7 +46,7 @@ test('creates all plugin types with unique names and matching page routes', asyn
     const manifest = JSON.parse(await readGenerated(variant.name, 'package.json'))
     const source = await readGenerated(variant.name, 'src/index.ts')
 
-    assert.equal(manifest.name, `dileader-plugin-${variant.name}`)
+    assert.equal(manifest.name, `cordis-plugin-${variant.name}`)
     assert.equal(manifest.peerDependencies['@cordisjs/plugin-database'] !== undefined, variant.database ?? false)
     assert.equal(existsSync(join(workspaceRoot, 'external', variant.name, 'entry.mjs')), true)
     assert.equal(source.includes("export const name = '" + variant.name + "'"), true)
@@ -55,8 +55,8 @@ test('creates all plugin types with unique names and matching page routes', asyn
 
     if (variant.page) {
       const clientSource = await readGenerated(variant.name, 'client/index.ts')
-      assert.match(clientSource, new RegExp(`path: '/dileader/${variant.name}'`))
-      assert.match(source, new RegExp(`routes: \\['/dileader/${variant.name}'\\]`))
+      assert.match(clientSource, new RegExp(`path: '/cordis/${variant.name}'`))
+      assert.match(source, new RegExp(`routes: \\['/cordis/${variant.name}'\\]`))
     }
     if (variant.service) {
       assert.match(source, /ctx\.plugin\(/)
@@ -76,48 +76,48 @@ test('creates all plugin types with unique names and matching page routes', asyn
 test('rejects unsafe names, unknown types, and existing output directories', async () => {
   await assert.rejects(createPlugin({ name: '../escape', type: 'normal', workspaceRoot }), /kebab-case/)
   await assert.rejects(createPlugin({ name: 'unknown-type', type: 'other', workspaceRoot }), /Unknown plugin type/)
-  await assert.rejects(createPlugin({ name: 'dileader-plugin-plain-sample', type: 'normal', workspaceRoot }), /already exists/)
+  await assert.rejects(createPlugin({ name: 'cordis-plugin-plain-sample', type: 'normal', workspaceRoot }), /already exists/)
 })
 
 test('normalizes plain, prefixed, and scoped package names', async () => {
   assert.deepEqual(normalizePluginName('sample-plugin'), {
     slug: 'sample-plugin',
-    packageName: 'dileader-plugin-sample-plugin',
+    packageName: 'cordis-plugin-sample-plugin',
   })
-  assert.deepEqual(normalizePluginName('dileader-plugin-sample-plugin'), {
+  assert.deepEqual(normalizePluginName('cordis-plugin-sample-plugin'), {
     slug: 'sample-plugin',
-    packageName: 'dileader-plugin-sample-plugin',
+    packageName: 'cordis-plugin-sample-plugin',
   })
-  assert.deepEqual(normalizePluginName('@my-scope/dileader-plugin-sample-plugin'), {
+  assert.deepEqual(normalizePluginName('@my-scope/cordis-plugin-sample-plugin'), {
     slug: 'sample-plugin',
-    packageName: '@my-scope/dileader-plugin-sample-plugin',
+    packageName: '@my-scope/cordis-plugin-sample-plugin',
   })
 
   const prefixedTarget = await createPlugin({
-    name: 'dileader-plugin-prefixed-sample',
+    name: 'cordis-plugin-prefixed-sample',
     type: 'normal',
     workspaceRoot,
   })
   assert.equal(prefixedTarget, join(workspaceRoot, 'external', 'prefixed-sample'))
   assert.equal(
     JSON.parse(await readGenerated('prefixed-sample', 'package.json')).name,
-    'dileader-plugin-prefixed-sample',
+    'cordis-plugin-prefixed-sample',
   )
 
   const scopedTarget = await createPlugin({
-    name: '@my-scope/dileader-plugin-scoped-sample',
+    name: '@my-scope/cordis-plugin-scoped-sample',
     type: 'normal',
     workspaceRoot,
   })
   assert.equal(scopedTarget, join(workspaceRoot, 'external', 'scoped-sample'))
   assert.equal(
     JSON.parse(await readGenerated('scoped-sample', 'package.json')).name,
-    '@my-scope/dileader-plugin-scoped-sample',
+    '@my-scope/cordis-plugin-scoped-sample',
   )
 })
 
 test('rejects invalid package prefixes and scoped names', () => {
-  assert.throws(() => normalizePluginName('dileader-plugin-'), /kebab-case/)
+  assert.throws(() => normalizePluginName('cordis-plugin-'), /kebab-case/)
   assert.throws(() => normalizePluginName('@my-scope/sample-plugin'), /kebab-case/)
-  assert.throws(() => normalizePluginName('@MyScope/dileader-plugin-sample-plugin'), /kebab-case/)
+  assert.throws(() => normalizePluginName('@MyScope/cordis-plugin-sample-plugin'), /kebab-case/)
 })

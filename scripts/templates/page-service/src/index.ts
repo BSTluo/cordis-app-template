@@ -12,7 +12,7 @@ export function apply(ctx: Context) {
     baseUrl: import.meta.url,
     source: '../client/index.ts',
     manifest: '../dist/manifest.json',
-    routes: ['/dileader/template'],
+    routes: ['/cordis/template'],
   }, {
     title: 'Template',
     summary: 'Template plugin page',

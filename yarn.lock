@@ -347,6 +347,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cordisjs/plugin-loader@npm:1.0.0-rc.5":
+  version: 1.0.0-rc.5
+  resolution: "@cordisjs/plugin-loader@npm:1.0.0-rc.5"
+  dependencies:
+    cosmokit: "npm:^1.8.1"
+  peerDependencies:
+    cordis: ^4.0.0-rc.7
+    node-addon-require-builtin: ^0.1.0
+  peerDependenciesMeta:
+    node-addon-require-builtin:
+      optional: true
+  checksum: 10c0/b18001618f211c2c486af90598774d5f5fb3fa4fa532288342f527c26b995570bde53df49294c5162092b89ea0163203549480a414ee2a9f326c1b9d1c68289c
+  languageName: node
+  linkType: hard
+
 "@cordisjs/plugin-loader@npm:^1.0.0-rc.3, @cordisjs/plugin-loader@npm:^1.0.0-rc.5":
   version: 1.0.0-rc.9
   resolution: "@cordisjs/plugin-loader@npm:1.0.0-rc.9"
@@ -514,6 +529,17 @@ __metadata:
     "@cordisjs/plugin-database": ^4.1.1
     cordis: ^4.0.0-rc.7
   checksum: 10c0/6aba91c4c1423810ef66ed30143a42ba7a3ae19cfdc4714df03fe69dc681aea819cbab5a9aa0fa37534f24e29de444bf7c7aa4883a5ec8786cfb794ffab9e1f2
+  languageName: node
+  linkType: hard
+
+"@cordisjs/plugin-timer@npm:1.1.2":
+  version: 1.1.2
+  resolution: "@cordisjs/plugin-timer@npm:1.1.2"
+  dependencies:
+    cosmokit: "npm:^1.8.1"
+  peerDependencies:
+    cordis: ^4.0.0-rc.5
+  checksum: 10c0/601d585d47353c1729067f93943207eb85e8589f6ca50baf55b53a535424c9579c9eaed72f9ec65e9bf5e8d66f3260641df8bf9dfa3729e03fa10404791279f3
   languageName: node
   linkType: hard
 
@@ -2367,6 +2393,41 @@ __metadata:
     yakumo-tsc: "npm:^3.0.1"
   languageName: unknown
   linkType: soft
+
+"cordis-plugin-test@workspace:external/test":
+  version: 0.0.0-use.local
+  resolution: "cordis-plugin-test@workspace:external/test"
+  dependencies:
+    "@cordisjs/plugin-loader": "npm:1.0.0-rc.5"
+    "@cordisjs/plugin-timer": "npm:1.1.2"
+    cordis: "npm:4.0.0-rc.7"
+    cosmokit: "npm:^1.8.1"
+    schemastery: "npm:^3.18.0"
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cordis: ^4.0.0-rc.7
+  languageName: unknown
+  linkType: soft
+
+"cordis@npm:4.0.0-rc.7":
+  version: 4.0.0-rc.7
+  resolution: "cordis@npm:4.0.0-rc.7"
+  dependencies:
+    "@standard-schema/spec": "npm:^1.1.0"
+    cosmokit: "npm:^1.8.1"
+  peerDependencies:
+    "@cordisjs/plugin-include": ^1.0.4
+    "@cordisjs/plugin-loader": ^1.0.0-rc.5
+  peerDependenciesMeta:
+    "@cordisjs/plugin-include":
+      optional: true
+    "@cordisjs/plugin-loader":
+      optional: true
+  bin:
+    cordis: bin.js
+  checksum: 10c0/3ec6843ea362751476311f61d67f9789b1ac05eefafee06e184261a496450df5c77391df5690f2f50a6961c30e2eba5db35bda8c33cd4c5a022d9f204993657c
+  languageName: node
+  linkType: hard
 
 "cordis@npm:^4.0.0-rc.4, cordis@npm:^4.0.0-rc.6, cordis@npm:^4.0.0-rc.7":
   version: 4.0.0-rc.12

@@ -197,7 +197,7 @@ yarn start
 yarn setup
 ```
 
-按提示选择普通插件、注册页面插件、服务插件或带服务和注册页面的插件，再输入小写 kebab-case 插件名 `my-plugin`、完整包名 `dileader-plugin-my-plugin`，或带命名空间的包名 `@my-scope/dileader-plugin-my-plugin`。脚手架模板保存在仓库的 `scripts/templates` 中，不需要在 `external` 里保留模板插件。脚手架会在 `external/my-plugin` 创建 workspace 插件包；包名会标准化为 `dileader-plugin-my-plugin` 或保留命名空间的 `@my-scope/dileader-plugin-my-plugin`。页面插件使用唯一的 `/my-plugin` 路由。已有同名目录不会被覆盖。
+按提示选择普通插件、注册页面插件、服务插件或带服务和注册页面的插件，再输入小写 kebab-case 插件名 `my-plugin`、完整包名 `cordis-plugin-my-plugin`，或带命名空间的包名 `@my-scope/cordis-plugin-my-plugin`。脚手架模板保存在仓库的 `scripts/templates` 中，不需要在 `external` 里保留模板插件。脚手架会在 `external/my-plugin` 创建 workspace 插件包；包名会标准化为 `cordis-plugin-my-plugin` 或保留命名空间的 `@my-scope/cordis-plugin-my-plugin`。页面插件使用唯一的 `/my-plugin` 路由。已有同名目录不会被覆盖。
 
 创建后可以检查生成的入口和配置，按需填写业务逻辑，再执行 `yarn build` 验证。
 脚手架自身可通过 `yarn test:setup` 运行测试。

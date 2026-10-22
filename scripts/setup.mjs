@@ -26,22 +26,22 @@ export function normalizePluginName(input) {
   }
 
   const value = input.trim()
-  const scopedMatch = value.match(/^@([a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)\/dileader-plugin-(.+)$/)
+  const scopedMatch = value.match(/^@([a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)\/cordis-plugin-(.+)$/)
   if (scopedMatch) {
     const [, namespace, slug] = scopedMatch
     if (!pluginSlugPattern.test(slug)) {
-      throw new Error('Plugin name must use lowercase kebab-case after "dileader-plugin-".')
+      throw new Error('Plugin name must use lowercase kebab-case after "cordis-plugin-".')
     }
-    return { slug, packageName: `@${namespace}/dileader-plugin-${slug}` }
+    return { slug, packageName: `@${namespace}/cordis-plugin-${slug}` }
   }
 
-  const slug = value.startsWith('dileader-plugin-')
-    ? value.slice('dileader-plugin-'.length)
+  const slug = value.startsWith('cordis-plugin-')
+    ? value.slice('cordis-plugin-'.length)
     : value
   if (!pluginSlugPattern.test(slug)) {
-    throw new Error('Use a plugin name, "dileader-plugin-<name>", or "@<namespace>/dileader-plugin-<name>" in lowercase kebab-case.')
+    throw new Error('Use a plugin name, "cordis-plugin-<name>", or "@<namespace>/cordis-plugin-<name>" in lowercase kebab-case.')
   }
-  return { slug, packageName: `dileader-plugin-${slug}` }
+  return { slug, packageName: `cordis-plugin-${slug}` }
 }
 
 function toServiceClass(name) {
@@ -213,11 +213,11 @@ async function promptForTemplate(rl) {
 
 async function promptForName(rl) {
   while (true) {
-    const name = (await rl.question('请输入插件名称 (xxx、dileader-plugin-xxx 或 @namespace/dileader-plugin-xxx): ')).trim()
+    const name = (await rl.question('请输入插件名称 (xxx、cordis-plugin-xxx 或 @namespace/cordis-plugin-xxx): ')).trim()
     try {
       return normalizePluginName(name)
     } catch {
-      stdout.write('请输入小写 kebab-case 插件名，可带 dileader-plugin- 前缀或 @namespace/ 作用域。\n')
+      stdout.write('请输入小写 kebab-case 插件名，可带 cordis-plugin- 前缀或 @namespace/ 作用域。\n')
     }
   }
 }
