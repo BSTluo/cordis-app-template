@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "types": [
+      "@cordisjs/client/global"
+    ]
+  },
+  "include": [
+    "."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "dileader-plugin-template",
+  "version": "0.0.1",
+  "description": "Dileader-Harness by Cordis",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "development": "./src/index.ts",
+      "import": "./entry.mjs"
+    }
+  },
+  "files": [
+    "entry.mjs",
+    "lib",
+    "dist"
+  ],
+  "keywords": [
+    "cordis",
+    "plugin"
+  ],
+  "dependencies": {
+    "cosmokit": "^1.8.1",
+    "schemastery": "^3.18.0"
+  },
+  "peerDependencies": {
+    "@cordisjs/plugin-database": "^4.1.1",
+    "@cordisjs/plugin-webui": "^0.8.2",
+    "cordis": "^4.0.0-rc.7"
+  },
+  "peerDependenciesMeta": {
+    "@cordisjs/plugin-database": {
+      "optional": true
+    },
+    "@cordisjs/plugin-webui": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@cordisjs/client": "0.8.2",
+    "@cordisjs/plugin-loader": "1.0.0-rc.5",
+    "@cordisjs/plugin-loader-webui": "0.10.1",
+    "@cordisjs/plugin-timer": "1.1.2",
+    "@cordisjs/plugin-webui": "0.8.2",
+    "cordis": "4.0.0-rc.7",
+    "typescript": "^5.9.3"
+  },
+  "cordis": {
+    "public": [
+      "dist"
+    ],
+    "service": {
+      "optional": [
+        "webui"
+      ]
+    }
+  }
+}
