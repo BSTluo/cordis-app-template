@@ -94,7 +94,9 @@ async function customizePackage(target, packageName, includesPage, includesDatab
 
   if (!includesPage) {
     delete manifest.exports
-    delete manifest.files[0]
+    delete manifest.cordis
+    manifest.files = manifest.files.filter((file) => file !== 'entry.mjs')
+    await rm(join(target, 'entry.mjs'), { force: true })
     delete manifest.peerDependencies['@cordisjs/plugin-webui']
     delete manifest.peerDependenciesMeta
     delete manifest.devDependencies['@cordisjs/client']
