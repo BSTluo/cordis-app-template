@@ -132,6 +132,7 @@ async function customizePluginSources(target, name, type) {
 
   if (type === 'normal') {
     await writeFile(sourcePath, `import { Context } from 'cordis'
+import Schema from 'schemastery'
 
 export const name = '${name}'
 export const inject = []

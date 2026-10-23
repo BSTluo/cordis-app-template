@@ -340,7 +340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cordisjs/plugin-loader@npm:^1.0.0-rc.3, @cordisjs/plugin-loader@npm:^1.0.0-rc.5":
+"@cordisjs/plugin-loader@npm:1.0.0-rc.5, @cordisjs/plugin-loader@npm:^1.0.0-rc.3, @cordisjs/plugin-loader@npm:^1.0.0-rc.5":
   version: 1.0.0-rc.5
   resolution: "@cordisjs/plugin-loader@npm:1.0.0-rc.5"
   dependencies:
@@ -510,7 +510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cordisjs/plugin-timer@npm:^1.1.2":
+"@cordisjs/plugin-timer@npm:1.1.2, @cordisjs/plugin-timer@npm:^1.1.2":
   version: 1.1.2
   resolution: "@cordisjs/plugin-timer@npm:1.1.2"
   dependencies:
@@ -2381,7 +2381,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cordis@npm:^4.0.0-rc.4, cordis@npm:^4.0.0-rc.6, cordis@npm:^4.0.0-rc.7":
+"cordis-plugin-test@workspace:external/test":
+  version: 0.0.0-use.local
+  resolution: "cordis-plugin-test@workspace:external/test"
+  dependencies:
+    "@cordisjs/plugin-loader": "npm:1.0.0-rc.5"
+    "@cordisjs/plugin-timer": "npm:1.1.2"
+    cordis: "npm:4.0.0-rc.7"
+    cosmokit: "npm:^1.8.1"
+    schemastery: "npm:^3.18.0"
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cordis: ^4.0.0-rc.7
+  languageName: unknown
+  linkType: soft
+
+"cordis@npm:4.0.0-rc.7, cordis@npm:^4.0.0-rc.4, cordis@npm:^4.0.0-rc.6, cordis@npm:^4.0.0-rc.7":
   version: 4.0.0-rc.7
   resolution: "cordis@npm:4.0.0-rc.7"
   dependencies:

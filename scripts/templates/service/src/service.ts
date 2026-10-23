@@ -10,7 +10,8 @@ declare module 'cordis' {
 
 export class TemplateServeice extends Service {
   static name = 'TemplateServeice'
-
+  static inject = []
+  
   constructor(public ctx: Context, public config: TemplateServeice.Config) {
     super(ctx, 'TemplateServeice')
   }
