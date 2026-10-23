@@ -93,7 +93,8 @@ async function customizePackage(target, packageName, includesPage, includesDatab
   manifest.name = packageName
 
   if (!includesPage) {
-    delete manifest.exports['./client']
+    delete manifest.exports
+    delete manifest.files[0]
     delete manifest.peerDependencies['@cordisjs/plugin-webui']
     delete manifest.peerDependenciesMeta
     delete manifest.devDependencies['@cordisjs/client']
