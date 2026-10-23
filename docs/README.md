@@ -19,7 +19,8 @@ Cordis 和 Yakumo 均属于 [cordiverse](https://github.com/cordiverse) 生态�
 5. [发布 Cordis 插件](./cordis-plugin-publishing.md)
 6. [官方 SDK 与插件参考](./cordis-sdk-reference.md)
 7. [版本兼容性](./cordis-version-compatibility.md)
-8. [常见问题排查](./troubleshooting.md)
+8. [Cordis Service package.json 元数据规范](./cordis-service-package-metadata.md)
+9. [常见问题排查](./troubleshooting.md)
 
 SDK 参考页除包清单外，还提供可参考当前项目版本的具体示例：数据库建模、CRUD、事务和表删除，插件配置 Schema，WebUI Page 注册，Cordis Service，以及 HTTP 中间件。
 

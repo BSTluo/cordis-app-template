@@ -8,6 +8,8 @@
 
 插件之间的运行时交互必须通过 Cordis 的 Service 注册、依赖注入和契约完成，不能直接 import 其他插件的实现。应使用 Cordis 生命周期、服务依赖及其可用的容错/熔断机制，并优先复用 Cordis 已有服务（例如 Database Service/driver），以保持系统可靠性并支持快速开发。不得绕过这些机制自行建立平行的服务调用或数据访问入口。
 
+凡创建或使用 Cordis Service、调整插件服务注入依赖时，必须先查阅并遵守 [Cordis Service package.json 元数据规范](docs/cordis-service-package-metadata.md)，在插件 `package.json` 的 `cordis.service` 中准确声明 `required`、`optional` 或 `implements`，并依据实际注入、注册名称和服务契约核对，不得把使用方依赖误写为提供方实现。若结论或适用版本发生变化，必须同步更新该文档及导航。
+
 以上是强制项目约束。实施任何改动前先确认文件位置、运行方式及跨插件依赖符合这些约束；如既有文件或历史做法与约束冲突，不得据此沿用，应将新实现收敛到 Cordis 插件架构内。
 
 ## Cordis 服务使用知识沉淀
