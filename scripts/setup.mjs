@@ -11,9 +11,9 @@ const templateRoot = join(dirname(fileURLToPath(import.meta.url)), 'templates')
 const templates = [
   { label: '普通插件', directory: 'normal', type: 'normal' },
   { label: '注册页面的插件', directory: 'page', type: 'page' },
-  { label: '服务插件', directory: 'service', type: 'service' },
-  { label: '带服务和注册页面的插件', directory: 'page-service', type: 'page-service' },
-  { label: '数据库操作插件', directory: 'database', type: 'database' },
+  { label: '注册服务插件', directory: 'service', type: 'service' },
+  { label: '注册服务和注册页面的插件', directory: 'page-service', type: 'page-service' },
+  { label: '使用数据库服务的插件', directory: 'database', type: 'database' },
 ]
 
 const ignoredDirectories = new Set(['node_modules', 'lib', 'dist'])
@@ -92,7 +92,11 @@ async function customizePackage(target, packageName, includesPage, includesDatab
   const manifest = await readJson(path)
   manifest.name = packageName
 
-  if (!includesPage) {
+  if (includesPage) {
+    manifest.cordis ??= {}
+    manifest.cordis.public = ['dist']
+    manifest.cordis.service = { optional: ['webui'] }
+  } else {
     delete manifest.exports
     delete manifest.cordis
     manifest.files = manifest.files.filter((file) => file !== 'entry.mjs')
@@ -102,10 +106,13 @@ async function customizePackage(target, packageName, includesPage, includesDatab
     delete manifest.devDependencies['@cordisjs/client']
     delete manifest.devDependencies['@cordisjs/plugin-loader-webui']
     delete manifest.devDependencies['@cordisjs/plugin-webui']
-  } else {
-    delete manifest.peerDependenciesMeta
   }
   if (includesDatabase) {
+    manifest.cordis ??= {}
+    manifest.cordis.service = {
+      ...(manifest.cordis.service || {}),
+      required: ['database', 'model'],
+    }
     manifest.peerDependencies['@cordisjs/plugin-database'] = '^4.1.1'
     manifest.peerDependenciesMeta ??= {}
     delete manifest.peerDependenciesMeta['@cordisjs/plugin-database']
