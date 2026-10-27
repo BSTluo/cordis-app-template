@@ -80,5 +80,3 @@
           - external
           - packages
           - app.yml
-- id: 5de3763c
-  name: cordis-plugin-test
