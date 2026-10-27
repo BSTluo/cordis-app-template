@@ -1,19 +1,11 @@
 {
   "name": "cordis-plugin-template",
   "version": "0.0.1",
-  "description": "cordis-Harness by Cordis",
+  "description": "cordis-Harness by cordis",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "development": "./src/index.ts",
-      "import": "./entry.mjs"
-    }
-  },
   "files": [
-    "entry.mjs",
     "lib",
     "dist"
   ],

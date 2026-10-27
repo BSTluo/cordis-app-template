@@ -18,7 +18,11 @@
     "build": "yakumo build",
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=\"--import tsx --import @cordisjs/unyaml\" cordis run",
     "start": "cordis run",
-    "setup": "node scripts/setup.mjs"
+    "setup": "node scripts/setup.mjs",
+    "docs": "node scripts/sync-plugin-docs.mjs --watch --dev",
+    "predocs:build": "node scripts/sync-plugin-docs.mjs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@cordisjs/client": "^0.8.2",
@@ -28,6 +32,7 @@
     "esbuild": "^0.28.0",
     "tsx": "npm:@cordiverse/tsx@4.19.3-fix.3",
     "typescript": "^5.9.3",
+    "vitepress": "^1.6.4",
     "yakumo": "^3.2.1",
     "yakumo-esbuild": "^3.0.2",
     "yakumo-tsc": "^3.0.1"

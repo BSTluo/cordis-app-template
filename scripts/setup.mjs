@@ -26,20 +26,20 @@ export function normalizePluginName(input) {
   }
 
   const value = input.trim()
-  const scopedMatch = value.match(/^@([a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)\/cordis-plugin-(.+)$/)
+  const scopedMatch = value.match(/^@([a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)\/(?:cordis-plugin-|plugin-)(.+)$/)
   if (scopedMatch) {
     const [, namespace, slug] = scopedMatch
     if (!pluginSlugPattern.test(slug)) {
-      throw new Error('Plugin name must use lowercase kebab-case after "cordis-plugin-".')
+      throw new Error('Plugin name must use lowercase kebab-case after "plugin-".')
     }
-    return { slug, packageName: `@${namespace}/cordis-plugin-${slug}` }
+    return { slug, packageName: `@${namespace}/plugin-${slug}` }
   }
 
   const slug = value.startsWith('cordis-plugin-')
     ? value.slice('cordis-plugin-'.length)
     : value
   if (!pluginSlugPattern.test(slug)) {
-    throw new Error('Use a plugin name, "cordis-plugin-<name>", or "@<namespace>/cordis-plugin-<name>" in lowercase kebab-case.')
+    throw new Error('Use a plugin name, "cordis-plugin-<name>", or "@<namespace>/plugin-<name>" in lowercase kebab-case.')
   }
   return { slug, packageName: `cordis-plugin-${slug}` }
 }
@@ -85,6 +85,38 @@ async function readJson(path) {
 
 async function writeJson(path, value) {
   await writeFile(path, `${JSON.stringify(value, null, 2)}\n`)
+}
+
+async function ensurePluginTsconfigPath(packageName, workspaceRoot) {
+  if (!packageName.startsWith('@')) return
+
+  const namespace = packageName.slice(1).split('/')[0]
+  const path = join(workspaceRoot, 'tsconfig.json')
+  const source = await readFile(path, 'utf8')
+  const tsconfig = JSON.parse(source.replace(/^\s*\/\/.*$/gm, '').replace(/,\s*([}\]])/g, '$1'))
+  const paths = tsconfig.compilerOptions?.paths || {}
+  const pattern = `@${namespace}/plugin-*`
+  if (Object.hasOwn(paths, pattern)) return
+
+  const pathsStart = source.indexOf('"paths"')
+  if (pathsStart < 0) throw new Error('Root tsconfig.json must define compilerOptions.paths.')
+  const objectStart = source.indexOf('{', pathsStart)
+  let depth = 0
+  let objectEnd = -1
+  for (let index = objectStart; index < source.length; index++) {
+    if (source[index] === '{') depth++
+    if (source[index] === '}' && --depth === 0) {
+      objectEnd = index
+      break
+    }
+  }
+  if (objectEnd < 0) throw new Error('Could not locate compilerOptions.paths in root tsconfig.json.')
+
+  const indent = '      '
+  const entry = `${indent}${JSON.stringify(pattern)}: [\n${indent}  "./external/*/src",\n${indent}  "./external/*/packages/core/src",\n${indent}  "./packages/*/src",\n${indent}],\n`
+  const prefix = source.slice(0, objectEnd)
+  const separator = prefix.trimEnd().endsWith(',') || prefix.trimEnd().endsWith('{') ? '' : ','
+  await writeFile(path, `${prefix}${separator}\n${entry}${source.slice(objectEnd)}`)
 }
 
 async function customizePackage(target, packageName, includesPage, includesDatabase) {
@@ -208,6 +240,12 @@ export function apply(ctx: Context, config: Config) {
     await writeFile(servicePath, serviceSource)
   }
 
+  if (includesService) {
+    const docsPath = join(target, 'docs', 'index.md')
+    const docsSource = (await readFile(docsPath, 'utf8')).replaceAll('{{pluginName}}', getPageTitle(name))
+    await writeFile(docsPath, docsSource)
+  }
+
 }
 
 async function promptForTemplate(rl) {
@@ -224,11 +262,11 @@ async function promptForTemplate(rl) {
 
 async function promptForName(rl) {
   while (true) {
-    const name = (await rl.question('请输入插件名称 (xxx、cordis-plugin-xxx 或 @namespace/cordis-plugin-xxx): ')).trim()
+    const name = (await rl.question('请输入插件名称 (xxx、cordis-plugin-xxx 或 @namespace/plugin-xxx): ')).trim()
     try {
       return normalizePluginName(name)
     } catch {
-      stdout.write('请输入小写 kebab-case 插件名，可带 cordis-plugin- 前缀或 @namespace/ 作用域。\n')
+      stdout.write('请输入小写 kebab-case 插件名，可带 cordis-plugin- 前缀或 @namespace/plugin- 作用域。\n')
     }
   }
 }
@@ -260,6 +298,7 @@ export async function createPlugin({ name, type, workspaceRoot = root }) {
     await copyFile(join(templateRoot, 'tsconfig.json'), join(target, 'tsconfig.json'))
     await customizePluginSources(target, slug, type)
     await customizePackage(target, packageName, type === 'page' || type === 'page-service', type === 'database')
+    await ensurePluginTsconfigPath(packageName, workspaceRoot)
   } catch (error) {
     await rm(target, { recursive: true, force: true })
     throw error
@@ -291,6 +330,7 @@ export async function runSetup() {
     const target = await createPlugin({ name: packageName, type: template.type })
     stdout.write(`已创建 ${template.label}: ${target}\n`)
     stdout.write(`包名: ${packageName} (插件目录和路由名: ${slug})\n`)
+    if (packageName.startsWith('@')) stdout.write('已确保根 tsconfig.json 包含该命名空间的 TS 源码解析路径。\n')
     stdout.write('正在运行 yarn install，以更新工作区插件链接...\n')
     await runInstall()
     stdout.write('工作区插件链接已更新。\n')
